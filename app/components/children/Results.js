@@ -1,7 +1,41 @@
 const React = require('react');
 
 var Results = React.createClass({
+  handleClick: function(i) {
+    // Sends saved url and headline to parent with helper funciton
+    var savedHeadline = this.props.searchResults[i].headline.main;
+    var savedUrl = this.props.searchResults[i].web_url;
+
+    this.props.setSaved(savedHeadline, savedUrl);
+  },
+
   render: function() {
+    // Iterate over results to display headilnes with links and save buttons
+    var results = this.props.searchResults;
+    var contents = results.map(function (article, index) {
+      if (this.props.searchResults.length > 2) {
+        return (
+          <div key={index} >
+            <button
+            style={{margin: '5px'}}
+            onClick={()=>this.handleClick(index)}
+            type="button"
+            className="btn btn-xs btn-warning">
+              <span className="glyphicon glyphicon-star" aria-hidden="true"></span>
+            </button>
+            <a key={article._id}
+            href={article.web_url}
+            target="_blank">
+              {article.headline.main}
+            </a>
+          </div>
+        );
+      }
+      else {
+        return '';
+      }
+    }, this);
+
     return (
       <div className="row">
     		<div className="col-sm-12">
@@ -11,6 +45,7 @@ var Results = React.createClass({
     					<h3 className="panel-title"><strong><i className="fa fa-table"></i>   Results</strong></h3>
             </div>
       		  <div className="panel-body" id="wellSection">
+            {contents}
       		  </div>
           </div>
         </div>

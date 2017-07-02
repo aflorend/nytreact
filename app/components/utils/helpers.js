@@ -23,7 +23,20 @@ var helper = {
 
   // Hits servers to retrieve saved articles
   getSaved: function() {
-    return axios.get('/saved');
+    return axios.get('/api');
+  },
+
+  postSaved: function(savedHeadline, savedUrl) {
+    return axios.post('/api', {
+      headline: savedHeadline,
+      url: savedUrl
+    })
+  },
+
+  deleteSaved: function(id) {
+    return axios.delete('/api', {
+      _id: id
+    })
   }
 };
 

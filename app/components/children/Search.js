@@ -1,9 +1,6 @@
 // React
 const React = require('react');
 
-// Helper functions
-var helpers = require('../utils/helpers.js');
-
 // Search class
 var Search = React.createClass({
   // Set generic state
@@ -28,9 +25,10 @@ var Search = React.createClass({
    this.setState({ end: event.target.value })
  },
 
+// Sends user input data to parent Main component to handle query with a helper function
  handleSubmit: function(event) {
    event.preventDefault();
-   this.props.setSearch(this.state.term, this.state.start, this.state.end)
+   this.props.setSearch(this.state.term.trim().split(' ').join('%20'), this.state.start, this.state.end)
    this.setState( {
      term: '',
      start: '',
