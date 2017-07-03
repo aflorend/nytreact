@@ -2,7 +2,9 @@ const React = require('react');
 
 var Saved = React.createClass({
   handleClick: function(id) {
-    this.props.setDelete(id);
+    console.log('clicked');
+    console.log(id);
+    // this.props.setDelete(id);
   },
 
   render: function() {
@@ -19,7 +21,7 @@ var Saved = React.createClass({
               <div key={i} >
                 <button
                 style={{margin: '5px'}}
-                onClick={()=>this.handleClick(article._id)}
+                onClick={this.handleClick.bind(null, article._id)}
                 type="button"
                 className="btn btn-xs btn-danger">
                   <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>

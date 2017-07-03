@@ -1,6 +1,10 @@
 // React
 const React = require('react');
 
+const helpers = require('../utils/helpers');
+
+var Results = require('./Results');
+
 // Search class
 var Search = React.createClass({
   // Set generic state
@@ -8,7 +12,8 @@ var Search = React.createClass({
     return {
       term: '',
       start: '',
-      end: ''
+      end: '',
+      results: []
    };
  },
 
@@ -28,7 +33,20 @@ var Search = React.createClass({
 // Sends user input data to parent Main component to handle query with a helper function
  handleSubmit: function(event) {
    event.preventDefault();
-   this.props.setSearch(this.state.term.trim().split(' ').join('%20'), this.state.start, this.state.end)
+   // this.props.setSearch(this.state.term.trim().split(' ').join('%20'), this.state.start, this.state.end)
+   // this.setState( {
+   //   term: '',
+   //   start: '',
+   //   end: ''
+   // })
+
+   helpers.runQuery(this.state.term.trim().split(' ').join('%20'), this.state.start, this.state.end).then(function(data) {
+      // Ensures unique data
+      if (JSON.stringify(data) !== JSON.stringify(this.state.results)) {
+        this.setState({ results: data });
+      }
+    }.bind(this));
+
    this.setState( {
      term: '',
      start: '',
@@ -97,6 +115,8 @@ var Search = React.createClass({
           </div>
         </div>
       </div>
+      <Results results={this.state.results} setSaved={this.props.setSaved} />
+
       </div>
 
   );
