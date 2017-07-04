@@ -11,6 +11,15 @@ var Results = React.createClass({
     }
   },
 
+  setDelete: function(id) {
+    helpers.deleteSaved(id).then(function(response) {
+      console.log(response);
+      helpers.getSaved().then(function(response) {
+        this.setState({ savedArticles: response.data });
+      }.bind(this));
+    }.bind(this));
+  },
+
   componentDidMount: function () {
     helpers.getSaved().then(function(response) {
       this.setState({ savedArticles: response.data });
@@ -67,7 +76,7 @@ var Results = React.createClass({
           </div>
         </div>
     	</div>
-        <Saved savedArticles={this.state.savedArticles} />
+        <Saved savedArticles={this.state.savedArticles} setDelete={this.setDelete} />
       </div>
     )
   }

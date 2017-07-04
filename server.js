@@ -71,19 +71,15 @@ app.post('/api', function(req, res) {
 });
 
 // Delete route using article id
-app.delete('/api', function(req, res) {
-  console.log(req.body);
-  console.log('delete request made');
-  // Article.remove({
-  //   '_id': req.body._id
-  // }), function(err) {
-  //   if (err) {
-  //     console.log(err);
-  //   }
-  //   else {
-  //     res.send('Aricle Deleted')
-  //   }
-  // }
+app.delete('/api/:id', function(req, res) {
+  Article.findByIdAndRemove(req.params.id, function (err) {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      res.send('Article deleted');
+    }
+  })
 });
 
 // Public is a static directory

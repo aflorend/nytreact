@@ -3,13 +3,13 @@ const React = require('react');
 var Saved = React.createClass({
   getDefaultProps: function() {
     return {
-      savedArticles: []
+      savedArticles: [],
+      setDelete: {}
     }
   },
 
   handleClick: function(id) {
-    console.log('clicked');
-    console.log(id);
+    this.props.setDelete(id);
   },
 
   render: function() {

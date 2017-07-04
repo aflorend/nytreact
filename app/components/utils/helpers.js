@@ -40,8 +40,12 @@ var helper = {
   },
 
   deleteSaved: function(id) {
-    return axios.delete('/api', {
-      _id: id
+    return axios.delete(`/api/${id}`)
+    .then(function(response) {
+      console.log(response);
+    })
+    .catch(function(error) {
+      console.log(error);
     });
   }
 };
