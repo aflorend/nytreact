@@ -31,12 +31,18 @@ var helper = {
       headline: savedHeadline,
       url: savedUrl
     })
+    .then(function(response) {
+      console.log(response);
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
   },
 
   deleteSaved: function(id) {
     return axios.delete('/api', {
       _id: id
-    })
+    });
   }
 };
 

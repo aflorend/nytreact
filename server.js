@@ -19,9 +19,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: 'application/vnd.api+vjson' }));
 
-// Public is a static directory
-app.use(express.static('./public'));
-
 // ---------------------------------------------------------------
 // MongoDB config
 mongoose.connect('mongodb://localhost:27017/nytreact');
@@ -63,14 +60,14 @@ app.post('/api', function(req, res) {
     headline: req.body.headline,
     url: req.body.url,
     date: Date.now()
-  }), function(err) {
+  }, function(err) {
     if (err) {
-      console.log(err);
+      console.log(err)
     }
     else {
-      res.send('Saved article')
+      res.send('Saved Article')
     }
-  }
+  })
 });
 
 // Delete route using article id
@@ -88,6 +85,9 @@ app.delete('/api', function(req, res) {
   //   }
   // }
 });
+
+// Public is a static directory
+app.use(express.static('./public'));
 
 // Main '/' Route to direct user to rendered React application
 app.get('/', function(req, res) {

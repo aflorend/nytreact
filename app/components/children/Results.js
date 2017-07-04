@@ -1,8 +1,20 @@
 const React = require('react');
 
-var Results = React.createClass({
-  componentWillReceiveProps: function() {
+const helpers = require('../utils/helpers');
 
+var Saved = require('./Saved');
+
+var Results = React.createClass({
+  getInitialState: function () {
+    return {
+      savedArticles: []
+    }
+  },
+
+  componentDidMount: function () {
+    helpers.getSaved().then(function(response) {
+      this.setState({ savedArticles: response.data });
+    }.bind(this));
   },
 
   handleClick: function(i) {
@@ -10,11 +22,21 @@ var Results = React.createClass({
     var savedHeadline = this.props.results[i].headline.main;
     var savedUrl = this.props.results[i].web_url;
 
-    this.props.setSaved(savedHeadline, savedUrl);
+    // Save to DB
+    helpers.postSaved(savedHeadline, savedUrl).then(function() {
+      // Then get all saved articles to display
+      helpers.getSaved().then(function(response) {
+        console.log('getting saved')
+        this.setState({ savedArticles: response.data });
+      }.bind(this));
+    }.bind(this));
+    
+
   },
 
   render: function() {
     return (
+      <div>
       <div className="row">
     		<div className="col-sm-12">
     		<br />
@@ -45,6 +67,8 @@ var Results = React.createClass({
           </div>
         </div>
     	</div>
+        <Saved savedArticles={this.state.savedArticles} />
+      </div>
     )
   }
 });
